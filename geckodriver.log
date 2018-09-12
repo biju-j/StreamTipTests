@@ -1,0 +1,15 @@
+1536707251086	geckodriver	INFO	geckodriver 0.21.0
+1536707251096	geckodriver	INFO	Listening on 127.0.0.1:65110
+1536707252111	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox-bin" "-marionette" "-foreground" "-no-remote" "-profile" "/var/folders/j2/g_cx1fpn74v6f6brtfqc_mw40000gn/T/rust_mozprofile.3v4ujmODODLM"
+1536707254367	Marionette	INFO	Listening on port 65129
+2018-09-12 04:37:34.653 plugin-container[88602:37343532] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x873b, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+[GFX1-]: Receive IPC close with reason=AbnormalShutdown
+1536707307863	geckodriver	INFO	geckodriver 0.21.0
+1536707307869	geckodriver	INFO	Listening on 127.0.0.1:65389
+1536707308883	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox-bin" "-marionette" "-foreground" "-no-remote" "-profile" "/var/folders/j2/g_cx1fpn74v6f6brtfqc_mw40000gn/T/rust_mozprofile.MipHNF85iNBh"
+1536707310695	Marionette	INFO	Listening on port 65404
+2018-09-12 04:38:30.952 plugin-container[88614:37344763] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x703b, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+[GFX1-]: Receive IPC close with reason=AbnormalShutdown
+[Child 88614] WARNING: pipe error: Broken pipe: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 702
