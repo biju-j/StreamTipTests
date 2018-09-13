@@ -1,0 +1,44 @@
+{
+  "name": "JSStreamTipTests",
+  "version": "0.1.0",
+  "description": "Front end tests",
+  "author": "biju-j",
+  "main": "./utils/support.js",
+  "scripts": {
+    "setup": "npm update",
+    "only": "mocha --timeout 120000 ./\"tests\"/**/*.js -f ",
+    "lint": "eslint ./\"tests\"/**/*.js **/*.js",
+    "testsm": "mocha --require babel-register ./\"tests\"/*.js --timeout 60000 --reporter mochawesome --reporter-options reportDir=reports,reportFilename=tips-report,reportTitle=\"StreamTips Flow\",inlineAssets=true",
+    "tests": "protractor protractor.conf.js"
+  },
+  "license": "UNLICENSED",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/biju-j/StreamTipTests.git"
+  },
+  "dependencies": {
+    "async": "~2.0.1",
+    "babel": "^6.5.2",
+    "babel-cli": "^6.22.2",
+    "babel-core": "^6.22.1",
+    "babel-preset-latest": "^6.22.0",
+    "babel-preset-stage-2": "^6.22.0",
+    "chai": "^2.3.0",
+    "fs-extra": "~0.30.0",
+    "lodash": "4.17.4",
+    "log4js": "~0.6.38",
+    "mocha": "4.1.0",
+    "mochawesome": "^2.3.1",
+    "protractor": "5.4.1"
+  },
+  "devDependencies": {
+    "babel-eslint": "^7.1.1",
+    "babel-polyfill": "^6.23.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-register": "^6.26.0",
+    "eslint": "^3.14.1",
+    "eslint-plugin-async-await": "^0.0.0",
+    "eslint-plugin-import": "^2.2.0",
+    "node-resemble-js": "^0.2.0"
+  }
+}
