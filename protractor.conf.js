@@ -3,8 +3,8 @@ exports.config = {
   specs: ['./tests/*.js'],
   baseUrl: 'http://localhost:8080/', // base url of the SUT
   multicapabilities:[{
-
-  'browserName': 'chrome'
+    {'browserName': 'chrome'},
+    {'browserName': 'firefox'}
   }] ,
   directConnect: true, // selenium will not need a server chrome
   framework: 'mocha', // Use mocha
