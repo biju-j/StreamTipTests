@@ -1,7 +1,6 @@
 exports.config = {
-  allScriptsTimeout: 11000, // The timeout for a script run on the browser.
+  allScriptsTimeout: 90000, // The timeout for a script run on the browser.
   specs: ['./tests/*.js'],
-  ignoreSynchronization: true,
   baseUrl: 'http://localhost:8080/', // base url of the SUT
   multicapabilities:[{
 
@@ -11,9 +10,9 @@ exports.config = {
   framework: 'mocha', // Use mocha
   mochaOpts: { // Mocha specific options
     reporter: "spec",
-    slow: 3000,
+    slow: 5000,
     ui: 'bdd',
-    timeout: 30000
+    timeout: 100000
   },
   onPrepare: function() {
 
