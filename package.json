@@ -5,7 +5,7 @@
   "author": "biju-j",
   "main": "./utils/support.js",
   "scripts": {
-    "setup": "npm update",
+    "setup": "npm update && npx webdriver-manager update",
     "only": "mocha --timeout 120000 ./\"tests\"/**/*.js -f ",
     "lint": "eslint ./\"tests\"/**/*.js **/*.js",
     "testsm": "mocha --require babel-register ./\"tests\"/*.js --timeout 60000 --reporter mochawesome --reporter-options reportDir=reports,reportFilename=tips-report,reportTitle=\"StreamTips Flow\",inlineAssets=true",
