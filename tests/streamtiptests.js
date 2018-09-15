@@ -13,12 +13,18 @@ let Support = require("./../utils/support.js");
 let logger = require('./../config/config-log4js.js');
 let EC = pro.ExpectedConditions;
 let driver = browser.driver;
- let login =function (uid, pwd)
-    {
-        driver.findElement(By.css(fetch['userinputfield'])).sendKeys(uid);
-        driver.findElement(By.xpath(fetch['passwordinputfield'])).sendKeys(pwd);
-        driver.findElement(By.css(fetch['loginbutton'])).click();
-    }
+let login =function (uid, pwd)
+{
+    driver.findElement(By.css(fetch['userinputfield'])).sendKeys(uid);
+    driver.findElement(By.xpath(fetch['passwordinputfield'])).sendKeys(pwd);
+    driver.findElement(By.css(fetch['loginbutton'])).click();
+}
+
+let logout = function()
+{   let signoff = driver.findElement(By.xpath("//div[@id='app']/div/div[1]/div/div[1]"));
+    driver.executeScript("arguments[0].click()",signoff);
+}
+
 
 describe('Stream Tips TestSuite', function () {
     let thisSuite = this;
@@ -46,6 +52,7 @@ describe('Stream Tips TestSuite', function () {
     it('Fetch login page labels', function () {
         let usrlabel = driver.findElement(By.css(fetch['username'])).getText();
         let pwdlabel = driver.findElement(By.css(fetch['password'])).getText();
+        logout();
         expect(fetch['userlabel'], usrlabel);
         expect(fetch['passwordlabel', pwdlabel]);
     });
@@ -55,6 +62,7 @@ describe('Stream Tips TestSuite', function () {
         let uidfield = driver.findElement(By.css(fetch['userinputfield'])).getText();
         let pwsfield = driver.findElement(By.xpath(fetch['passwordinputfield'])).getText();
         let loginbuttontext = driver.findElement(By.css(fetch['loginbutton'])).getText();
+        logout();
         expect(fetch['userdefaultvalue'], uidfield);
         expect(fetch['passworddeafultvalue'], pwsfield);
         expect(fetch['loginname'], loginbuttontext);
@@ -94,6 +102,7 @@ describe('Stream Tips TestSuite', function () {
         driver.findElement(By.xpath(fetch['logofftext'])).click();
         let usrlabel = driver.findElement(By.css(fetch['username'])).getText();
         let pwdlabel = driver.findElement(By.css(fetch['password'])).getText();
+        logout();
         expect(fetch['userlabel'], usrlabel);
         expect(fetch['passwordlabel', pwdlabel]);
         expect(fetch['searchheaderoneval'], searchheader);
@@ -107,6 +116,7 @@ describe('Stream Tips TestSuite', function () {
         });
 
         driver.findElement(By.xpath(fetch['logofftext'])).click();
+        logout();
     });
 
 
@@ -362,9 +372,17 @@ describe('Stream Tips TestSuite', function () {
 
             }
         });
+
+        /*driver.executeScript("return $('.right a').click();").then(function(element){
+           logger.info("Now...Logout"+element);
+        });*/
+
         element.all(by.css(fetch['amountcard'])).then(function (elements) {
             expect(elements.length, 3);
         });
+
+        logout();
+
     });
  });
 

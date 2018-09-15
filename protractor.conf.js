@@ -2,10 +2,9 @@ exports.config = {
   allScriptsTimeout: 90000, // The timeout for a script run on the browser.
   specs: ['./tests/*.js'],
   baseUrl: 'http://localhost:8080/', // base url of the SUT
-  multicapabilities:[{
-
-  'browserName': 'chrome'
-  }] ,
+  multicapabilities:[{'browserName': 'chrome'},
+    {'browserName': 'firefox'}
+ ],
   directConnect: true, // selenium will not need a server chrome
   framework: 'mocha', // Use mocha
   mochaOpts: { // Mocha specific options
