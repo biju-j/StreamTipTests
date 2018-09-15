@@ -27,7 +27,7 @@
         "firstchild":"div.gif:first-child",
         "nthchild":"div.gif:only-of-type",
         "searchheaderone" : "//div[@class='home']/div[2]/div/h1",
-        "searchfield" : "input[type='text']",
+        "searchfield" : "#app > div > div.main.margin-top--60px > div",
         "valinput": "input:only-of-type",
         "searchabutton" : ".search-btn",
         "searchheaderoneval" : "Search for a gif",
