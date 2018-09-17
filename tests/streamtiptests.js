@@ -5,6 +5,7 @@ let pro = require('protractor');
 let env = require( './../config/env.json');
 let all = require( './../resources/data.json');
 let fs = require('fs');
+let casual = require('casual');
 let fetch = all.data;
 
 let chai = require('chai');
@@ -83,7 +84,7 @@ function capture(name){
  * Repeat or do it again reusable method
  */
 function doitagain(){
-        driver.sleep(9000);
+        driver.sleep(5000);
         if(driver.findElement(By.xpath(fetch['signoff'])).isDisplayed()){
 
                 element.all(by.xpath(fetch['gifpageelements'])).each(function(header, index){
@@ -221,6 +222,42 @@ describe('Stream Tips TestSuite', function () {
 
     });
 
+    it('InValid Credentials - valid username and password wrong', function () {
+
+        login(fetch['uid'], casual.last_name);
+        capture("InvalidCredentia;s");
+        let checkmsg = driver.findElement(By.css(fetch['errorbox'])).getText();
+        driver.findElement(By.linkText(fetch['closebutton'])).click();
+        expect(fetch['error'], checkmsg);
+    });
+
+    it('InValid Credentials - both username and password wrong', function () {
+
+        login(casual.first_name, casual.last_name);
+        capture("wrongCredentia;s");
+        let checkmsg = driver.findElement(By.css(fetch['errorbox'])).getText();
+        driver.findElement(By.linkText(fetch['closebutton'])).click();
+        expect(fetch['error'], checkmsg);
+    });
+
+    it('Number as username and with valid password', function () {
+
+        login(casual.random, fetch['pwd']);
+        capture("Numbersusername");
+        let checkmsg = driver.findElement(By.css(fetch['errorbox'])).getText();
+        driver.findElement(By.linkText(fetch['closebutton'])).click();
+        expect(fetch['error'], checkmsg);
+    });
+
+    it('Valid username and number as password', function () {
+
+        login(fetch['uid'], casual.random);
+        capture("Numberpassword");
+        let checkmsg = driver.findElement(By.css(fetch['errorbox'])).getText();
+        driver.findElement(By.linkText(fetch['closebutton'])).click();
+        expect(fetch['error'], checkmsg);
+    });
+
     it('Valid Credentials - Signin Success', function () {
 
         login(fetch['uid'], fetch['pwd']);
@@ -243,171 +280,16 @@ describe('Stream Tips TestSuite', function () {
         });
 
         element.all(by.css(fetch['allgifs'])).each(function (item, index) {
-             driver.sleep(9000);
+
              capture("defaultgifslist");
         });
 
         logout();
     });
 
-
-    it('Click select one GIF randomly', async function () {
-
-        login(fetch['uid'], fetch['pwd']);
-        if(driver.findElement(By.xpath(fetch['searchheaderone'])).isDisplayed()) {
-
-            element.all(by.css(fetch['searchfield'])).each(function (field, index) {
-                field.getText().then(function (text) {
-                    logger.info(index, text);
-                });
-
-            });
-
-            let search = driver.findElement(By.css(fetch['valinput']));
-            search.clear();
-            search.sendKeys(fetch['searchval']);
-
-            runjs(driver.findElement(By.css(fetch['searchbutton'])));
-        }
-        let gifindex = Math.floor(Math.random() * 14 + 1);
-        let onegifrandom = fetch['getgif'] + gifindex + ")";
-
-        runjs(element(by.css(onegifrandom)));
-
-       /* element.all(by.css(fetch['childgifs'])).each(function (element, index) {
-            if (index == gifindex && element.isElementPresent()) {
-                element.getWebElement().click();
-            }
-        });*/
-        logout();
-    });
-
-    it('Search by keyword and select a GIF randomly', function () {
-
-        login(fetch['uid'], fetch['pwd']);
-
-        if(driver.findElement(By.xpath(fetch['searchheaderone'])).isDisplayed()) {
-
-            element.all(by.css(fetch['searchfield'])).each(function (field, index) {
-                logger.info("Index of search page: " + index);
-
-                field.getText().then(function (text) {
-                    logger.info(index, text);
-                });
-
-            });
-
-            let search = driver.findElement(By.css(fetch['valinput']));
-            search.clear();
-            search.sendKeys('football');
-
-            runjs(driver.findElement(By.css(fetch['searchbutton'])));
-        }
-
-        element.all(by.css(fetch['allgifs'])).each(function (item, index) {
-                    driver.sleep(9000);
-                    capture("tengifs");
-                    if(index == 0){
-                       item.getWebElement().click();
-                      // logger.info("Selected a gif");
-                        capture("selectone");
-                    }
-        });
-        logout();
-
-    });
-
-    it('Search by keyword, select GIF and continue to Tip input page', function () {
-
-        login(fetch['uid'], fetch['pwd']);
-        if(driver.findElement(By.xpath(fetch['searchheaderone'])).isDisplayed()) {
-
-            element.all(by.css(fetch['searchfield'])).each(function (field, index) {
-                field.getText().then(function (text) {
-                    logger.info(index, text);
-                });
-
-            });
-
-            let search = driver.findElement(By.css(fetch['valinput']));
-            search.clear();
-            search.sendKeys(fetch['searchval']);
-
-            runjs(driver.findElement(By.css(fetch['searchbutton'])));
-        }
-
-        if (driver.findElement(By.css(fetch['valinput'])).isDisplayed()) {
-            let enteredvalue = driver.findElement(By.css(fetch['valinput'])).getText();
-
-            if (enteredvalue == fetch['searchval']) {
-
-                driver.findElement(By.css(fetch['searchbutton'])).click();
-                driver.findElement(By.css(fetch['firstchild'])).click();
-                element(by.css(fetch['continuebutton'])).click();
-
-                let tiphead = driver.findElement(By.css(fetch['tipheaderone'])).$('h1');
-                if (tiphead.isDisplayed()) {
-                    let fetcheadtxt = tiphead.getText();
-                    // logger.info("Tip HEADER : " + fetcheadtxt);
-                    expect(fetch['tipheader'], fetcheadtxt);
-                }
-            }
-        }
-        logout();
-
-    });
-
-    // End-to-End Scenario with Tip 0
-    it('Check invalid Tip 0 Submission', function () {
-
-        login(fetch['uid'], fetch['pwd']);
-        if(driver.findElement(By.xpath(fetch['searchheaderone'])).isDisplayed()) {
-
-            element.all(by.css(fetch['searchfield'])).each(function (field, index) {
-                field.getText().then(function (text) {
-                    logger.info(index, text);
-                });
-
-            });
-
-            let search = driver.findElement(By.css(fetch['valinput']));
-            search.clear();
-            search.sendKeys(fetch['searchval']);
-
-            runjs(driver.findElement(By.css(fetch['searchbutton'])));
-        }
-
-        if (driver.findElement(By.css(fetch['valinput'])).isDisplayed()) {
-            let enteredvalue = driver.findElement(By.css(fetch['valinput'])).getText();
-
-            if (enteredvalue == 'test') {
-
-                driver.findElement(By.css(fetch['searchbutton'])).click();
-                driver.findElement(By.css(fetch['nthchild'])).click();
-                element(by.css(fetch['continuebutton'])).click();
-
-                let tiphead = driver.findElement(By.css(fetch['tipheaderone'])).$('h1');
-                driver.wait(tiphead.isDisplayed, 10000);
-                if (tiphead.isDisplayed()) {
-                    let fetcheadtxt = tiphead.getText();
-
-                    // logger.info("Tip HEADER : " + fetcheadtxt);
-                    if (driver.findElement(By.xpath(fetch['tipinput'])).isDisplayed()) {
-                        driver.findElement(By.xpath(fetch['tipinput'])).sendKeys(fetch['zero']);
-
-                        driver.findElement(By.xpath(fetch['submitbutton'])).isDisplayed();
-                        driver.findElement(By.xpath(fetch['submitbutton'])).click();
-
-                        driver.findElement(By.css(fetch['tipheaderone'])).$('h1');
-                    }
-                }
-            }
-        }
-        logout();
-    });
-
-
  });
+
+
 
 /**
  * Search GIF select scenarios
@@ -595,7 +477,7 @@ describe("End to End scenarios ", function(){
         }
 
         element.all(by.css(fetch['allgifs'])).each(function (item, index) {
-            driver.sleep(9000);
+           //  driver.sleep(9000);
 
             capture("alltengifs");
 
@@ -656,9 +538,9 @@ describe("End to End scenarios ", function(){
                 search.sendKeys(fetch['searchval']);
 
                 runjs(driver.findElement(By.css(fetch['searchbutton'])));
-           }
-           element.all(by.css(fetch['allgifs'])).each(function (item, index) {
-                    driver.sleep(9000);
+          }
+          element.all(by.css(fetch['allgifs'])).each(function (item, index) {
+                    // driver.sleep(9000);
 
                     capture("allgifs");
 
@@ -669,10 +551,10 @@ describe("End to End scenarios ", function(){
                 }
             });
 
-            element(by.css(fetch['continuebutton'])).click();
-            capture("continueclick");
+          element(by.css(fetch['continuebutton'])).click();
+          capture("continueclick");
 
-            if(element(by.css(fetch['tiphone'])).isDisplayed()) {
+          if(element(by.css(fetch['tiphone'])).isDisplayed()) {
                  // logger.info("About to give tip");
 
                 driver.findElement(By.css(fetch['userinputfield'])).sendKeys(fetch['five']);
@@ -685,8 +567,8 @@ describe("End to End scenarios ", function(){
                         capture("tipsubmit"+fetch['five']);
                     }
                 });
-            }
-            element.all(by.css(fetch['amountcard'])).each(function(element, index) {
+          }
+          element.all(by.css(fetch['amountcard'])).each(function(element, index) {
                 // Will print 0 First, 1 Second, 2 Third.
                 capture("finalcard");
                 element.getText().then(function (text) {
@@ -697,6 +579,234 @@ describe("End to End scenarios ", function(){
                     }
                 });
             });
+    });
+
+    /**
+     * Check if negative number can be submitted as tip
+     */
+    it('Check Tip Negative Submission and Do it Again', function () {
+
+          if(driver.findElement(By.xpath(fetch['searchheaderone'])).isDisplayed()) {
+
+                element.all(by.css(fetch['searchfield'])).each(function (field, index) {
+                    field.getText().then(function (text) {
+                        logger.info(index, text);
+                    });
+                });
+
+                let search = driver.findElement(By.css(fetch['valinput']));
+                search.clear();
+                search.sendKeys(fetch['searchval']);
+
+                runjs(driver.findElement(By.css(fetch['searchbutton'])));
+          }
+          element.all(by.css(fetch['allgifs'])).each(function (item, index) {
+                    // driver.sleep(9000);
+
+                    capture("allgifs");
+
+                    if(index == 0){
+                       item.getWebElement().click();
+                      // logger.info("Selected a gif");
+                      capture("onegif");
+                }
+            });
+
+          element(by.css(fetch['continuebutton'])).click();
+          capture("continueclick");
+
+          if(element(by.css(fetch['tiphone'])).isDisplayed()) {
+                 // logger.info("About to give tip");
+                let tipamt = casual.integer(-1000, 0);
+                logger.info("Tip Negative >>> "+tipamt);
+                driver.findElement(By.css(fetch['userinputfield'])).sendKeys(tipamt);
+                element.all(by.css(fetch['buttons'])).each(function (button, index) {
+                    // logger.info("Fetch buttons"+index);
+                    if (index == 1 ) {
+
+                        runjs(button.getWebElement());
+                        // logger.info("Gave a tip of "+fetch['five']);
+                        capture("tipsubmit"+tipamt);
+                    }
+                });
+          }
+          element.all(by.css(fetch['amountcard'])).each(function(element, index) {
+                // Will print 0 First, 1 Second, 2 Third.
+                capture("finalcard");
+                element.getText().then(function (text) {
+
+                    if(index == 0) {
+                          // logger.info("Doing it again");
+                         element.click();
+                    }
+                });
+            });
+    });
+
+
+/**
+* Click and Select a GIF, Search
+*/
+describe("Click to Select, Search by entering a word", function(){
+
+            beforeEach(function () {
+
+                    browser.waitForAngularEnabled(false);
+                    driver.get(env.host['url']);
+
+            });
+
+
+            it('Click select one GIF randomly', async function () {
+                let searchone = casual.city;
+                login(fetch['uid'], fetch['pwd']);
+                if(driver.findElement(By.xpath(fetch['searchheaderone'])).isDisplayed()) {
+
+                     element.all(by.css(fetch['searchfield'])).each(function (field, index) {
+                        field.getText().then(function (text) {
+                        logger.info(index, text);
+                        });
+
+                    });
+
+                    let search = driver.findElement(By.css(fetch['valinput']));
+                    search.clear();
+                    search.sendKeys(fetch['searchval']);
+
+                    runjs(driver.findElement(By.css(fetch['searchbutton'])));
+                }
+                let gifindex = Math.floor(Math.random() * 14 + 1);
+                let onegifrandom = fetch['getgif'] + gifindex + ")";
+
+                runjs(element(by.css(onegifrandom)));
+
+                logout();
+            });
+
+        it('Search by keyword and select a GIF randomly', function () {
+
+            login(fetch['uid'], fetch['pwd']);
+
+            if(driver.findElement(By.xpath(fetch['searchheaderone'])).isDisplayed()) {
+
+                element.all(by.css(fetch['searchfield'])).each(function (field, index) {
+                    logger.info("Index of search page: " + index);
+
+                    field.getText().then(function (text) {
+                        logger.info(index, text);
+                    });
+
+                });
+
+                let search = driver.findElement(By.css(fetch['valinput']));
+                search.clear();
+                search.sendKeys(casual.word);
+
+                runjs(driver.findElement(By.css(fetch['searchbutton'])));
+            }
+
+            element.all(by.css(fetch['allgifs'])).each(function (item, index) {
+                       // driver.sleep(8000);
+                        capture("tengifs");
+                        if(index == 0){
+                           item.getWebElement().click();
+                          // logger.info("Selected a gif");
+                            capture("selectone");
+                        }
+            });
+            logout();
+
+        });
+
+        it('Search by keyword, select GIF and continue to Tip input page', function () {
+
+            login(fetch['uid'], fetch['pwd']);
+            if(driver.findElement(By.xpath(fetch['searchheaderone'])).isDisplayed()) {
+
+                element.all(by.css(fetch['searchfield'])).each(function (field, index) {
+                    field.getText().then(function (text) {
+                        logger.info(index, text);
+                    });
+
+                });
+
+                let search = driver.findElement(By.css(fetch['valinput']));
+                search.clear();
+                search.sendKeys(fetch['searchval']);
+
+                runjs(driver.findElement(By.css(fetch['searchbutton'])));
+            }
+
+            if (driver.findElement(By.css(fetch['valinput'])).isDisplayed()) {
+                let enteredvalue = driver.findElement(By.css(fetch['valinput'])).getText();
+
+                if (enteredvalue == fetch['searchval']) {
+
+                    driver.findElement(By.css(fetch['searchbutton'])).click();
+                    driver.findElement(By.css(fetch['firstchild'])).click();
+                    element(by.css(fetch['continuebutton'])).click();
+
+                    let tiphead = driver.findElement(By.css(fetch['tipheaderone'])).$('h1');
+                    if (tiphead.isDisplayed()) {
+                        let fetcheadtxt = tiphead.getText();
+                        // logger.info("Tip HEADER : " + fetcheadtxt);
+                        expect(fetch['tipheader'], fetcheadtxt);
+                    }
+                }
+            }
+            logout();
+
+        });
+
+        // End-to-End Scenario with Tip 0
+        it('Check invalid Tip 0 Submission', function () {
+
+            login(fetch['uid'], fetch['pwd']);
+            if(driver.findElement(By.xpath(fetch['searchheaderone'])).isDisplayed()) {
+
+                element.all(by.css(fetch['searchfield'])).each(function (field, index) {
+                    field.getText().then(function (text) {
+                        logger.info(index, text);
+                    });
+
+                });
+
+                let search = driver.findElement(By.css(fetch['valinput']));
+                search.clear();
+                search.sendKeys(fetch['searchval']);
+
+                runjs(driver.findElement(By.css(fetch['searchbutton'])));
+            }
+
+            if (driver.findElement(By.css(fetch['valinput'])).isDisplayed()) {
+                let enteredvalue = driver.findElement(By.css(fetch['valinput'])).getText();
+
+                if (enteredvalue == 'test') {
+
+                    driver.findElement(By.css(fetch['searchbutton'])).click();
+                    driver.findElement(By.css(fetch['nthchild'])).click();
+                    element(by.css(fetch['continuebutton'])).click();
+
+                    let tiphead = driver.findElement(By.css(fetch['tipheaderone'])).$('h1');
+                    driver.wait(tiphead.isDisplayed, 10000);
+                    if (tiphead.isDisplayed()) {
+                        let fetcheadtxt = tiphead.getText();
+
+                        // logger.info("Tip HEADER : " + fetcheadtxt);
+                        if (driver.findElement(By.xpath(fetch['tipinput'])).isDisplayed()) {
+                            driver.findElement(By.xpath(fetch['tipinput'])).sendKeys(fetch['zero']);
+
+                            driver.findElement(By.xpath(fetch['submitbutton'])).isDisplayed();
+                            driver.findElement(By.xpath(fetch['submitbutton'])).click();
+
+                            driver.findElement(By.css(fetch['tipheaderone'])).$('h1');
+                        }
+                    }
+                }
+            }
+            logout();
+        });
+
     });
 });
 

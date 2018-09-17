@@ -8,7 +8,11 @@ multicapabilities:[
  directConnect: true, // selenium will not need a server chrome
   framework: 'mocha', // Use mocha
   mochaOpts: { // Mocha specific options
-    reporter: "spec",
+    reporter: "mochawesome",
+    reporterOptions: {
+      reportDir: 'reports',
+      reportName: 'Tips-report'
+    },
     slow: 5000,
     ui: 'bdd',
     timeout: 100000
