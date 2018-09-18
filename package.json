@@ -9,7 +9,7 @@
     "only": "mocha --timeout 120000 ./\"tests\"/**/*.js -f ",
     "lint": "eslint ./\"tests\"/**/*.js **/*.js",
     "testsm": "mocha --require babel-register ./\"tests\"/*.js --timeout 60000 --reporter mochawesome --reporter-options reportDir=reports,reportFilename=tips-report,reportTitle=\"StreamTips Flow\",inlineAssets=true",
-    "tests": "protractor protractor.conf.js --reporter mochawesome"
+    "tests": "protractor protractor.conf.js"
   },
   "license": "UNLICENSED",
   "repository": {

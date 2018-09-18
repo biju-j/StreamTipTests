@@ -11,7 +11,7 @@ multicapabilities:[
     reporter: "mochawesome",
     reporterOptions: {
       reportDir: 'reports',
-      reporFiletName: 'Tips-report'
+      reporFiletName: 'StreamTips-Test report'
     },
     slow: 5000,
     ui: 'bdd',
