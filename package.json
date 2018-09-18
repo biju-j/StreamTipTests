@@ -9,7 +9,7 @@
     "only": "mocha --timeout 120000 ./\"tests\"/**/*.js -f ",
     "lint": "eslint ./\"tests\"/**/*.js **/*.js",
     "testsm": "mocha --require babel-register ./\"tests\"/*.js --timeout 60000 --reporter mochawesome --reporter-options reportDir=reports,reportFilename=tips-report,reportTitle=\"StreamTips Flow\",inlineAssets=true",
-    "tests": "protractor protractor.conf.js --reporter mochawesome --reporter-options reportDir=reports,reportFilename=Tips-report,reportTitle=\"StreamTips Flow\",inlineAssets=true"
+    "tests": "protractor protractor.conf.js --reporter mochawesome"
   },
   "license": "UNLICENSED",
   "repository": {
@@ -23,9 +23,10 @@
     "babel-core": "^6.22.1",
     "babel-preset-latest": "^6.22.0",
     "babel-preset-stage-2": "^6.22.0",
+    "casual": "1.5.19",
     "chai": "^2.3.0",
     "fs-extra": "~0.30.0",
-    "casual":"1.5.19",
+    "increase-memory-limit": "^1.0.6",
     "lodash": "4.17.4",
     "log4js": "~0.6.38",
     "mocha": "4.1.0",

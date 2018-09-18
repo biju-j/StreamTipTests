@@ -11,11 +11,11 @@ multicapabilities:[
     reporter: "mochawesome",
     reporterOptions: {
       reportDir: 'reports',
-      reportName: 'Tips-report'
+      reporFiletName: 'Tips-report'
     },
     slow: 5000,
     ui: 'bdd',
     timeout: 100000
   },
   onPrepare: function() { }
-};
+ };
